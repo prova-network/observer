@@ -1,0 +1,45 @@
+{
+  "name": "@prova-network/observer",
+  "version": "1.0.0",
+  "description": "Observability MCP server + CLI for the Prova Network. Query historical chain data, live contract state, and prover/deal/proof telemetry on Base.",
+  "author": "Prova Network contributors",
+  "license": "Apache-2.0 OR MIT",
+  "type": "module",
+  "bin": {
+    "prova-observer": "./dist/cli.js"
+  },
+  "keywords": [
+    "prova",
+    "base",
+    "mcp",
+    "observability",
+    "verifiable-storage"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prova-network/observer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/prova-network/observer/issues"
+  },
+  "homepage": "https://github.com/prova-network/observer",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "test": "vitest run",
+    "test:live": "LIVE_TEST=1 vitest run"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.27.1",
+    "commander": "^14.0.3",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.0"
+  }
+}

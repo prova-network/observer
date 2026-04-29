@@ -1,0 +1,74 @@
+name: Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  # ─── Phase 3 (deferred) ────────────────────────────────────────────
+  # The client and server workspaces still reference the upstream
+  # FOC schema and have not been rewritten yet. They are intentionally
+  # disabled in CI until the Phase 3 rewrite lands. Tracked in
+  # ATTRIBUTION.md and prova-network/observer ROADMAP.
+  client:
+    name: client
+    if: false
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: client/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+
+  server:
+    name: server
+    if: false
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: server/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
+
+  # ─── Phase 2 (live) ────────────────────────────────────────────────
+  # The indexer has been rewritten for Prova v2 contracts and is the
+  # source-of-truth job for "does this PR break anything?" until the
+  # client and server rewrites land.
+  indexer:
+    name: indexer
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: indexer
+    steps:
+      - uses: actions/checkout@v6
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: indexer/pnpm-lock.yaml
+      - run: pnpm install --no-frozen-lockfile
+      # typecheck symlinks ponder.config.anvil.ts -> ponder.config.ts,
+      # runs ponder codegen to materialize ponder-env.d.ts, then tsc --noEmit.
+      # No DB or RPC needed; codegen accepts dummy connection strings.
+      - run: pnpm run typecheck
