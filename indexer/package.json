@@ -10,7 +10,7 @@
     "typecheck": "node -e \"require('node:fs').symlinkSync('ponder.config.anvil.ts', 'ponder.config.ts')\" 2>/dev/null; PROVA_RPC_URL=http://localhost:1234 DATABASE_URL=postgres://noop:noop@localhost:5432/noop ponder codegen && tsc --noEmit"
   },
   "dependencies": {
-    "hono": "^4.5",
+    "hono": "^4.12",
     "multiformats": "^13",
     "ponder": "npm:@rvagg/ponder@^0.16.6",
     "viem": "^2.23"
