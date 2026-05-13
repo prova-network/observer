@@ -13,7 +13,7 @@
     "hono": "^4.5",
     "multiformats": "^13",
     "ponder": "npm:@rvagg/ponder@^0.16.6",
-    "viem": "^2.23"
+    "viem": "^2.48"
   },
   "devDependencies": {
     "@types/node": "^25.6.0",
